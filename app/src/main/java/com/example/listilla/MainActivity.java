@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         public int intents;
         public String nom;
 
+
         public Record(int _intents, String _nom ) {
             intents = _intents;
             nom = _nom;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     }
     // Model = Taula de records: utilitzem ArrayList
     ArrayList<Record> records;
+
+    // ArrayList amb noms per a afegir quan es premi el botó
+    ArrayList<String> noms;
 
     // ArrayAdapter serà l'intermediari amb la ListView
     ArrayAdapter<Record> adapter;
@@ -35,9 +39,38 @@ public class MainActivity extends AppCompatActivity {
         // Inicialitzem model
         records = new ArrayList<Record>();
         // Afegim alguns exemples
-        records.add( new Record(33,"Manolo") );
-        records.add( new Record(12,"Pepe") );
-        records.add( new Record(42,"Laura") );
+        records.add( new Record((int) (Math.random() * 100),"Manolo") );
+        records.add( new Record((int) (Math.random() * 100),"Pepe") );
+        records.add( new Record((int) (Math.random() * 100),"Laura") );
+        records.add( new Record((int) (Math.random() * 100), "Alex"));
+        records.add( new Record((int) (Math.random() * 100), "Juan"));
+        records.add( new Record((int) (Math.random() * 100), "Jesus"));
+
+        noms = new ArrayList<String>();
+
+        noms.add("Alejandro");
+        noms.add("Borja");
+        noms.add("Jeremy");
+        noms.add("Andy");
+        noms.add("Toby");
+        noms.add("Tom");
+        noms.add("Jack");
+        noms.add("Randall");
+        noms.add("James");
+        noms.add("Will");
+        noms.add("Rafa");
+        noms.add("Irene");
+        noms.add("Argentina");
+        noms.add("Ivan");
+        noms.add("Sergi");
+        noms.add("Sergio");
+        noms.add("Alex");
+        noms.add("Axel");
+        noms.add("Alexander");
+        noms.add("Albert");
+        noms.add("Edu");
+        noms.add("Eduardo");
+
 
         // Inicialitzem l'ArrayAdapter amb el layout pertinent
         adapter = new ArrayAdapter<Record>( this, R.layout.list_item, records )
@@ -68,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 for (int i=0;i<500;i++) {
-                    records.add(new Record(100, "Anonymous"));
+                    int index = (int) (Math.random() * records.size());
+                    records.add(new Record((int) (Math.random()*100), noms.get((int) (Math.random()*noms.size()))));
                 }
                 // notificar l'adapter dels canvis al model
                 adapter.notifyDataSetChanged();
