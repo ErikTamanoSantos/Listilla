@@ -8,11 +8,12 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
     // Model: Record (intents=puntuació, nom)
-    class Record {
+    class Record implements Comparable<Record>{
         public int intents;
         public String nom;
 
@@ -20,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
         public Record(int _intents, String _nom ) {
             intents = _intents;
             nom = _nom;
+        }
+
+        @Override
+        public int compareTo(Record o) {
+            return o.intents - this.intents;
         }
     }
     // Model = Taula de records: utilitzem ArrayList
@@ -38,13 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Inicialitzem model
         records = new ArrayList<Record>();
-        // Afegim alguns exemples
-        records.add( new Record((int) (Math.random() * 100),"Manolo") );
-        records.add( new Record((int) (Math.random() * 100),"Pepe") );
-        records.add( new Record((int) (Math.random() * 100),"Laura") );
-        records.add( new Record((int) (Math.random() * 100), "Alex"));
-        records.add( new Record((int) (Math.random() * 100), "Juan"));
-        records.add( new Record((int) (Math.random() * 100), "Jesus"));
+
+        records.add( new Record(33,"Manolo") );
+        records.add( new Record(12,"Pepe") );
+        records.add( new Record(42,"Laura") );
 
         noms = new ArrayList<String>();
 
@@ -96,13 +99,25 @@ public class MainActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         // botó per afegir entrades a la ListView
-        Button b = (Button) findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
+        Button afegir = (Button) findViewById(R.id.afegir);
+        afegir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (int i=0;i<500;i++) {
                     int index = (int) (Math.random() * records.size());
                     records.add(new Record((int) (Math.random()*100), noms.get((int) (Math.random()*noms.size()))));
+                }
+                // notificar l'adapter dels canvis al model
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        Button ordenar = (Button) findViewById(R.id.ordenar);
+        ordenar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i=0;i<500;i++) {
+                    Collections.sort(records);
                 }
                 // notificar l'adapter dels canvis al model
                 adapter.notifyDataSetChanged();
